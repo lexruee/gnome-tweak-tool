@@ -126,37 +126,6 @@ class GnomeShell:
     def version(self):
         return self._proxy.version
 
-class GnomeShell32(GnomeShell):
-
-    EXTENSION_ENABLED_KEY = "enabled-extensions"
-    SUPPORTS_EXTENSION_PREFS = False
-
-    def list_extensions(self):
-        return self._proxy.proxy.ListExtensions()
-
-    def extension_is_active(self, state, uuid):
-        return state == GnomeShell.EXTENSION_STATE["ENABLED"] and \
-                self._settings.setting_is_in_list(self.EXTENSION_ENABLED_KEY, uuid)
-
-    def enable_extension(self, uuid):
-        self._settings.setting_add_to_list(self.EXTENSION_ENABLED_KEY, uuid)
-
-    def disable_extension(self, uuid):
-        self._settings.setting_remove_from_list(self.EXTENSION_ENABLED_KEY, uuid)
-
-class GnomeShell34(GnomeShell32):
-
-    SUPPORTS_EXTENSION_PREFS = True
-
-    def restart(self):
-        logging.warning("Restarting Shell Not Supported")
-
-    def reload_theme(self):
-        logging.warning("Reloading Theme Not Supported")
-
-    def uninstall_extension(self, uuid):
-        return self._proxy.proxy.UninstallExtension('(s)', uuid)
-
 
 class GnomeShell36(GnomeShell34):
 
@@ -181,11 +150,6 @@ class GnomeShellFactory:
 
             if v >= [3, 5, 0]:
                 self.shell = GnomeShell36(proxy, settings)
-            elif v >= [3,3,2]:
-                self.shell = GnomeShell34(proxy, settings)
-            elif v >= [3,1,4]:
-                self.shell = GnomeShell32(proxy, settings)
-
             else:
                 logging.warn("Shell version not supported")
                 self.shell = None

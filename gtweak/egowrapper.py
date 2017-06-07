@@ -105,7 +105,7 @@ if __name__ == "__main__":
 
     logging.basicConfig(format="%(levelname)-8s: %(message)s", level=logging.DEBUG)
 
-    e = ExtensionsDotGnomeDotOrg((3, 4, 1))
+    e = ExtensionsDotGnomeDotOrg((3, 6, 1))
 
     e.connect("got-extensions", _got_ext)
     e.connect("got-extension-info", _got_ext_info)
