@@ -31,8 +31,24 @@ gtk_dep = dependency('gtk+-3.0', version: gtk_req)
 pygobject_dep = dependency('pygobject-3.0', version: pygobject_req)
 schemas_dep = dependency('gsettings-desktop-schemas', version: schemas_req)
 
-install_data('gnome-tweak-tool', install_dir: bindir)
-install_data('gnome-tweak-tool-lid-inhibitor', install_dir: libexecdir)
+conf = configuration_data()
+conf.set('PYTHON', python3.find_python().path())
+
+configure_file(
+  input: 'gnome-tweak-tool.in',
+  output: 'gnome-tweak-tool',
+  configuration: conf,
+  install: true,
+  install_dir: bindir,
+)
+
+configure_file(
+  input: 'gnome-tweak-tool-lid-inhibitor.in',
+  output: 'gnome-tweak-tool-lid-inhibitor',
+  configuration: conf,
+  install: true,
+  install_dir: libexecdir,
+)
 
 subdir('gtweak')
 subdir('data')
