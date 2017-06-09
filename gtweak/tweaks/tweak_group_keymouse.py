@@ -21,6 +21,10 @@ from gi.repository import GLib, Gtk
 
 import gtweak
 from gtweak.widgets import ListBoxTweakGroup, GSettingsComboTweak, GSettingsSwitchTweak, GSettingsSwitchTweakValue, _GSettingsTweak, GetterSetterSwitchTweak, Title, GSettingsComboEnumTweak, build_label_beside_widget
+from gtweak.gshellwrapper import GnomeShellFactory
+
+_shell = GnomeShellFactory().get_shell()
+_shell_loaded = _shell is not None
 
 class KeyThemeSwitcher(GSettingsSwitchTweakValue):
     def __init__(self, **options):
@@ -78,6 +82,12 @@ TWEAK_GROUPS = [
         KeyThemeSwitcher(),
         OverviewShortcutTweak(),
         Title(_("Mouse"), ""),
+        GSettingsSwitchTweak(_("Hot Corner"),
+                               "org.gnome.shell",
+                               "enable-hot-corners",
+                               # Translators: For RTL languages, this is the "Right" direction
+                               desc=_("Open the Activities Overview when mouse enters top left corner"),
+                               loaded=_shell_loaded),
         GSettingsComboEnumTweak(_("Acceleration Profile"),
                                 "org.gnome.desktop.peripherals.mouse",
                                 "accel-profile",
