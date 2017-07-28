@@ -26,6 +26,10 @@ gi.require_version("Gtk", "3.0")
 
 import gtweak
 
+if 'gnome-tweak-tool' in sys.argv[0]:
+    print("Warning: The command gnome-tweak-tool is deprecated!"
+            " Please use the command gnome-tweaks instead.\n")
+
 if __name__ == '__main__':
     parser = optparse.OptionParser()
     parser.add_option("-t", "--test", action="store_true",
